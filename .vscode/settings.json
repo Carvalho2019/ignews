@@ -13,7 +13,7 @@
     ".next":true,
     "public":true,
     "yarn.lock":true,
-    "package.json":true,
+    "package.json":false,
     "next.config.js":true,
     "tsconfig.json":true,
     "next-env.d.ts":true,
