@@ -4,7 +4,7 @@ import { getSession } from "next-auth/client"
 import Head from "next/head";
 import { createClient } from "../../services/prismic"
 import styles from './post.module.scss'
- 
+
 
 interface PostProps {
   post: {
@@ -15,7 +15,7 @@ interface PostProps {
   }
 }
 
-export default function Post({post} : PostProps) {
+export default function Post({ post }: PostProps) {
   return (
     <>
       <Head>
@@ -25,7 +25,7 @@ export default function Post({post} : PostProps) {
         <article className={styles.post}>
           <h1>{post.title}</h1>
           <time>{post.updatedAt}</time>
-          <div className={styles.postContent} dangerouslySetInnerHTML={{__html: post.content}} />
+          <div className={styles.postContent} dangerouslySetInnerHTML={{ __html: post.content }} />
         </article>
       </main>
     </>
@@ -35,9 +35,9 @@ export default function Post({post} : PostProps) {
 export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
 
   const session = await getSession({ req })
-  const {slug} = params
+  const { slug } = params
 
-  if(!session.activeSubscription) {
+  if (!session?.activeSubscription) {
     return {
       redirect: {
         destination: '/',
@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 
   const post = {
     slug,
-    title : response.data.title[0].text,
+    title: response.data.title[0].text,
     content: asHTML(response.data.content),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-pt', {
       day: '2-digit',
