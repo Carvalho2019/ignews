@@ -7,23 +7,17 @@ export async function saveSubscription(
   customerId: string,
   createAction = false
 ) {
-  try {
-    var userRef = await fauna.query(
-      q.Select(
-        ["ref"],
-        q.Get(
-          q.Match(
-            q.Index('user_by_stripe_customer_id'),
-            customerId
-          )
+  const userRef = await fauna.query(
+    q.Select(
+      "ref",
+      q.Get(
+        q.Match(
+          q.Index('user_by_stripe_customer_id'),
+          customerId
         )
       )
     )
-  } catch (error) {
-    console.log('error 2', error);
-    
-  }
-
+  )
 
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId)
@@ -58,7 +52,5 @@ export async function saveSubscription(
         { data: subscriptionData }
       )
     )
-    
   }
-
 }
